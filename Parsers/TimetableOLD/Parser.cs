@@ -22,7 +22,8 @@ namespace Parsers.TimetableOLD
                 var i = 0;
 
                 // get info about current group timetable
-                var dateFromFile = DateTime.ParseExact(lines[i], new[] { "dd.MM.yyyy HH:mm", "d.MM.yyyy HH:mm", "dd.M.yyyy HH:mm", "d.M.yyyy HH:mm" }, null, DateTimeStyles.AllowWhiteSpaces);
+                var dateFromFile = DateTime.ParseExact(lines[i], new[] { "dd.MM.yyyy HH:mm", "d.MM.yyyy HH:mm", "dd.M.yyyy HH:mm", "d.M.yyyy HH:mm",
+                                                                         "dd.MM.yyyy H:mm", "d.MM.yyyy H:mm", "dd.M.yyyy H:mm", "d.M.yyyy H:mm"}, null, DateTimeStyles.AllowWhiteSpaces);
                 date = dateFromFile > date ? dateFromFile : date; // get the most recent date from files
                 i++; // next line
 
@@ -179,7 +180,7 @@ namespace Parsers.TimetableOLD
             if (Dictionaries.TypesOfEventDictionary2.ContainsKey(type)) Dictionaries.TypesOfEventDictionary2.TryGetValue(type, out type);
 
 
-            string fileName = folderName + "/" + e.Department + "_2018_J_" + mode + "_" + fieldOfStudy + "_" + e.Degree + "_R" + e.Year + "S" + e.Semester + "_";
+            string fileName = folderName + "/" + e.Department + "_2019_W_" + mode + "_" + fieldOfStudy + "_" + e.Degree + "_R" + e.Year + "S" + e.Semester + "_";
             if (e.Specialization != "") fileName += e.Specialization; else fileName += "gr" + e.Group;
             fileName += ".txt";
 
