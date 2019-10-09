@@ -20,10 +20,20 @@ namespace Parsers.TimetableOLD
                 //var lines = content.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 var lines = Regex.Split(content, Environment.NewLine);
                 var i = 0;
-
-                // get info about current group timetable
-                var dateFromFile = DateTime.ParseExact(lines[i], new[] { "dd.MM.yyyy HH:mm", "d.MM.yyyy HH:mm", "dd.M.yyyy HH:mm", "d.M.yyyy HH:mm",
+                DateTime dateFromFile;
+                try
+                {
+                    // get info about current group timetable
+                    dateFromFile = DateTime.ParseExact(lines[i], new[] { "dd.MM.yyyy HH:mm", "d.MM.yyyy HH:mm", "dd.M.yyyy HH:mm", "d.M.yyyy HH:mm",
                                                                          "dd.MM.yyyy H:mm", "d.MM.yyyy H:mm", "dd.M.yyyy H:mm", "d.M.yyyy H:mm"}, null, DateTimeStyles.AllowWhiteSpaces);
+                }
+                catch (Exception ex)
+                {
+                    string errMsg = "Niepoprawna data: " + lines[i];
+                    Console.WriteLine(errMsg);
+                    throw new Exception(errMsg);
+                }
+
                 date = dateFromFile > date ? dateFromFile : date; // get the most recent date from files
                 i++; // next line
 

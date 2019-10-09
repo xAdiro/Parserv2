@@ -8,7 +8,7 @@ namespace ParserApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("Reading from input folder");
             Console.WriteLine("Searching for txt files...");
@@ -40,7 +40,7 @@ namespace ParserApp
 
             if(odp is "1")
             {
-                Console.WriteLine("Generowanie jsonów");
+                Console.WriteLine("\nGenerowanie jsonów");
                 Parsers.TimetableNew.Models.Timetable tn = Parsers.TimetableNew.Parser.ParseTimetableFiles(filesContents, lastDate);
 
                 Console.WriteLine("Writing to timetable.json");
@@ -71,7 +71,7 @@ namespace ParserApp
             }
             else if (odp is "2")
             {
-                Console.WriteLine("Generowanie jsonów");
+                Console.WriteLine("\nGenerowanie jsonów");
                 Parsers.TimetableOLD.Models.Timetable tOLD = Parsers.TimetableOLD.Parser.ParseTimetableFiles(filesContents);
 
                 Console.WriteLine("Writing to timetableOLD.json");
@@ -102,9 +102,8 @@ namespace ParserApp
             }
             else
             {
-                Console.WriteLine("Generowanie starych plików");
+                Console.WriteLine("\nGenerowanie starych plików");
                 Console.WriteLine("Parsing");
-                var groups = new Dictionary<int, string>();
                 Parsers.TimetableNew.Models.Timetable tn = Parsers.TimetableNew.Parser.ParseTimetableFiles(filesContents, lastDate);
                 Parsers.TimetableOLD.Models.Timetable tOLD = (Parsers.TimetableOLD.Models.Timetable)tn;
                 Parsers.TimetableOLD.Parser.SaveTimetableToFiles(tOLD, "output");
