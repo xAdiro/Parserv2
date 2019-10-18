@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parsers.TimetableOLD.Models
 {
-    public class TimetableEvent
+    public class TimetableEvent : IEquatable<TimetableEvent>
     {
         public string Department { get; set; }
         public string FieldOfStudy { get; set; }
@@ -28,5 +24,55 @@ namespace Parsers.TimetableOLD.Models
         public string Type { get; set; }
         public string Remarks { get; set; }
         public string AcademicYear { get; set; }
+
+        public bool Equals(TimetableEvent other)
+        {
+            if (other is null) return false;
+
+            if (Department != other.Department) return false;
+            if (FieldOfStudy != other.FieldOfStudy) return false;
+            if (Mode != other.Mode) return false;
+            if (Year != other.Year) return false;
+            if (Semester != other.Semester) return false;
+            if (Group != other.Group) return false;
+            if (IsFaculty != other.IsFaculty) return false;
+            if (FacultyGroup != other.FacultyGroup) return false;
+            if (Specialization != other.Specialization) return false;
+            if (Degree != other.Degree) return false;
+            if (Name != other.Name) return false;
+            if (DayOfWeek != other.DayOfWeek) return false;
+            if (StartTime != other.StartTime) return false;
+            if (EndTime != other.EndTime) return false;
+            if (Building != other.Building) return false;
+            if (Room != other.Room) return false;
+            if (Lecturers != other.Lecturers) return false;
+            if (Type != other.Type) return false;
+            if (Remarks != other.Remarks) return false;
+            if (AcademicYear != other.AcademicYear) return false;
+            return true;
+        }
+        public override bool Equals(object obj) => Equals(obj as TimetableEvent);
+        public override int GetHashCode() => (
+            Department,
+            FieldOfStudy,
+            Mode,
+            Year,
+            Semester,
+            Group,
+            IsFaculty,
+            FacultyGroup,
+            Specialization,
+            Degree,
+            Name,
+            DayOfWeek,
+            StartTime,
+            EndTime,
+            Building,
+            Room,
+            Lecturers,
+            Type,
+            Remarks,
+            AcademicYear
+            ).GetHashCode();
     }
 }

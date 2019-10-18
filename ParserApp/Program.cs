@@ -15,17 +15,17 @@ namespace ParserApp
             string[] filesPathsArray = Directory.GetFiles(@".\input\", "*.txt");
             Console.WriteLine("Found " + filesPathsArray.Length + " txt file" + (filesPathsArray.Length == 1 ? "" : "s"));
 
-            Console.WriteLine("Reading files");
-            DateTime lastDate = new DateTime();
-            List<string> filesContents = new List<string>();
-            foreach (var filePath in filesPathsArray)
-            {
-                StreamReader streamReader = new StreamReader(filePath);
-                FileInfo fileInfo = new FileInfo(filePath);
-                if (fileInfo.LastWriteTime > lastDate) lastDate = fileInfo.LastWriteTime;
-                filesContents.Add(streamReader.ReadToEnd());
-                streamReader.Close();
-            }
+            //Console.WriteLine("Reading files");
+            //DateTime lastDate = new DateTime();
+            //List<string> filesContents = new List<string>();
+            //foreach (var filePath in filesPathsArray)
+            //{
+            //    StreamReader streamReader = new StreamReader(filePath);
+            //    FileInfo fileInfo = new FileInfo(filePath);
+            //    if (fileInfo.LastWriteTime > lastDate) lastDate = fileInfo.LastWriteTime;
+            //    filesContents.Add(streamReader.ReadToEnd());
+            //    streamReader.Close();
+            //}
             
             string[] odps = { "1", "2", "3"};
             string odp = "";
@@ -40,6 +40,18 @@ namespace ParserApp
 
             if(odp is "1")
             {
+                Console.WriteLine("Reading files");
+                DateTime lastDate = new DateTime();
+                List<string> filesContents = new List<string>();
+                foreach (var filePath in filesPathsArray)
+                {
+                    StreamReader streamReader = new StreamReader(filePath);
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    if (fileInfo.LastWriteTime > lastDate) lastDate = fileInfo.LastWriteTime;
+                    filesContents.Add(streamReader.ReadToEnd());
+                    streamReader.Close();
+                }
+
                 Console.WriteLine("\nGenerowanie jsonów");
                 Parsers.TimetableNew.Models.Timetable tn = Parsers.TimetableNew.Parser.ParseTimetableFiles(filesContents, lastDate);
 
@@ -71,8 +83,11 @@ namespace ParserApp
             }
             else if (odp is "2")
             {
+                Console.WriteLine("Reading files");
+                List<string> filepaths = filesPathsArray.ToList();
+
                 Console.WriteLine("\nGenerowanie jsonów");
-                Parsers.TimetableOLD.Models.Timetable tOLD = Parsers.TimetableOLD.Parser.ParseTimetableFiles(filesContents);
+                Parsers.TimetableOLD.Models.Timetable tOLD = Parsers.TimetableOLD.Parser.ParseTimetableFiles(filepaths);
 
                 Console.WriteLine("Writing to timetableOLD.json");
                 StreamWriter streamWriter = new StreamWriter("output/timetableOLD.json");
@@ -102,6 +117,17 @@ namespace ParserApp
             }
             else
             {
+                Console.WriteLine("Reading files");
+                DateTime lastDate = new DateTime();
+                List<string> filesContents = new List<string>();
+                foreach (var filePath in filesPathsArray)
+                {
+                    StreamReader streamReader = new StreamReader(filePath);
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    if (fileInfo.LastWriteTime > lastDate) lastDate = fileInfo.LastWriteTime;
+                    filesContents.Add(streamReader.ReadToEnd());
+                    streamReader.Close();
+                }
                 Console.WriteLine("\nGenerowanie starych plików");
                 Console.WriteLine("Parsing");
                 Parsers.TimetableNew.Models.Timetable tn = Parsers.TimetableNew.Parser.ParseTimetableFiles(filesContents, lastDate);
@@ -110,7 +136,7 @@ namespace ParserApp
 
                 Console.WriteLine("Done");
             }
-            Console.ReadKey();
+            Console.ReadLine();
         }
     }
 }

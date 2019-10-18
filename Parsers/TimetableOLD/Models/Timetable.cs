@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parsers.TimetableOLD.Models
 {
@@ -10,6 +8,12 @@ namespace Parsers.TimetableOLD.Models
     {
         public DateTime Date { get; set; }
         public IEnumerable<TimetableEvent> Events { get; set; }
+
+        public Timetable()
+        {
+             Events = new List<TimetableEvent>();
+        }
+
 
         public static explicit operator Timetable(TimetableNew.Models.Timetable timetableNew)
         {
@@ -110,9 +114,32 @@ namespace Parsers.TimetableOLD.Models
                                     }
                         }
             }
-            Parser.SortTimetable(t);
+            t.SortTimetable();
 
             return t;
+        }
+
+        public Timetable MergeTimetables(Timetable t)
+        {
+            Timetable result = new Timetable
+            {
+                Date = t.Date > Date ? t.Date : Date,
+                Events = Events.Union(t.Events)
+            };
+            result.SortTimetable();
+            return result;
+        }
+
+        public void SortTimetable()
+        {
+            Events = Events.OrderBy(i => i.Department)
+                .ThenBy(i => i.Mode)
+                .ThenBy(i => i.FieldOfStudy)
+                .ThenBy(i => i.Degree)
+                .ThenBy(i => i.Semester)
+                .ThenBy(i => i.DayOfWeek)
+                .ThenBy(i => i.StartTime)
+                .ThenBy(i => i.EndTime).ToList();
         }
     }
 }
