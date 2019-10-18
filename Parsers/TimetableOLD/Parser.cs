@@ -12,12 +12,17 @@ namespace Parsers.TimetableOLD
     {
         public static Timetable ParseTimetableFile(string filepath)
         {
+
             StreamReader sr = new StreamReader(filepath);
             string[] lines = Regex.Split(sr.ReadToEnd(), Environment.NewLine);
 
             var events = new List<TimetableEvent>();
             var date = new DateTime();
             var i = 0;
+            string BuildErrorMsg(string msg)
+            {
+                return string.Format("{0}\nw linii: {1}\nPlik: {2}", msg, i, filepath);
+            }
             DateTime dateFromFile;
             try
             {
@@ -27,7 +32,7 @@ namespace Parsers.TimetableOLD
             }
             catch (Exception ex)
             {
-                string errMsg = "Niepoprawna data: " + lines[i];
+                string errMsg = BuildErrorMsg("Niepoprawna data: " + lines[i]);
                 Console.WriteLine(errMsg);
                 throw new Exception(errMsg);
             }
@@ -40,25 +45,25 @@ namespace Parsers.TimetableOLD
             // checks
             if (info.Length < 9)
             {
-                string errMsg = "Spodziewano się min 9 wartości w drugiej linii pliku, a otrzymano " + info.Length;
+                string errMsg = BuildErrorMsg("Spodziewano się min 9 wartości w drugiej linii pliku, a otrzymano " + info.Length);
                 Console.WriteLine(errMsg);
                 throw new Exception(errMsg);
             }
             if (info[6].Length < 1 || !char.IsDigit(info[6].Trim()[1]))
             {
-                string errMsg = "Rok studiów w złym formacie " + info[6];
+                string errMsg = BuildErrorMsg("Rok studiów w złym formacie " + info[6]);
                 Console.WriteLine(errMsg);
                 throw new Exception(errMsg);
             }
             if (info[7].Length < 1 || !char.IsDigit(info[7].Trim()[1]))
             {
-                string errMsg = "Semestr studiów w złym formacie " + info[7];
+                string errMsg = BuildErrorMsg("Semestr studiów w złym formacie " + info[7]);
                 Console.WriteLine(errMsg);
                 throw new Exception(errMsg);
             }
             if (info[8].Length < 2 || !char.IsDigit(info[8].Trim()[2]))
             {
-                string errMsg = "Grupa w złym formacie " + info[8];
+                string errMsg = BuildErrorMsg("Grupa w złym formacie " + info[8]);
                 Console.WriteLine(errMsg);
                 throw new Exception(errMsg);
             }
@@ -97,7 +102,7 @@ namespace Parsers.TimetableOLD
                 //check lines amount
                 if (i + 5 >= lines.Length)
                 {
-                    string errMsg = "Ilość linii w pliku nie jest prawidłowa";
+                    string errMsg = BuildErrorMsg("Ilość linii w pliku nie jest prawidłowa");
                     Console.WriteLine(errMsg);
                     throw new Exception(errMsg);
                 }
@@ -111,7 +116,7 @@ namespace Parsers.TimetableOLD
                 }
                 catch (Exception ex)
                 {
-                    string errMsg = "Podano niepoprawny dzień tygodnia " + lines[i + 2][1] + " " + ex.Message;
+                    string errMsg = BuildErrorMsg("Podano niepoprawny dzień tygodnia " + lines[i + 2][1]);
                     Console.WriteLine(errMsg);
                     throw new Exception(errMsg);
                 }
