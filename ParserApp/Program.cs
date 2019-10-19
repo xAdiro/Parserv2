@@ -71,11 +71,12 @@ namespace ParserApp
                 int tEventsNumber = 0;
                 int tmEventsNumber = ((List<Parsers.TimetableOLD.Models.TimetableEvent>)tOLD.Events).Count;
                 foreach (var item in tn.AcademicYears)
-                    foreach (var item2 in item.Modes)
-                        foreach (var item3 in item2.Fields)
-                            foreach (var item4 in item3.Semesters)
-                                foreach (var item5 in item4.Days)
-                                    tEventsNumber += item5.Events.Count;
+                    foreach (var item0 in item.Departments)
+                        foreach (var item2 in item0.Modes)
+                            foreach (var item3 in item2.Fields)
+                                foreach (var item4 in item3.Semesters)
+                                    foreach (var item5 in item4.Days)
+                                        tEventsNumber += item5.Events.Count;
 
                 Console.WriteLine("Done");
                 Console.WriteLine("new json has: " + tEventsNumber + " events");
@@ -105,11 +106,12 @@ namespace ParserApp
                 int tEventsNumber = 0;
                 int tmEventsNumber = ((List<Parsers.TimetableOLD.Models.TimetableEvent>)tOLD.Events).Count;
                 foreach (var item in tn.AcademicYears)
-                    foreach (var item2 in item.Modes)
-                        foreach (var item3 in item2.Fields)
-                            foreach (var item4 in item3.Semesters)
-                                foreach (var item5 in item4.Days)
-                                    tEventsNumber += item5.Events.Count;
+                    foreach (var item0 in item.Departments)
+                        foreach (var item2 in item0.Modes)
+                            foreach (var item3 in item2.Fields)
+                                foreach (var item4 in item3.Semesters)
+                                    foreach (var item5 in item4.Days)
+                                        tEventsNumber += item5.Events.Count;
 
                 Console.WriteLine("Done");
                 Console.WriteLine("new json has: " + tEventsNumber + " events");

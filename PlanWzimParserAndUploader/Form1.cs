@@ -249,61 +249,6 @@ namespace PlanWzimParserAndUploader
                     }
                 }
             }
-            //byte[] buf = Encoding.UTF8.GetBytes(json);
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            //request.Method = "PUT";
-            //request.ContentType = "appication/json";
-            //request.ContentLength = buf.Length;
-            //request.Headers[HttpRequestHeader.Authorization] = "ayy lmao";
-            //try
-            //{
-            //    request.GetRequestStream().Write(buf, 0, buf.Length);
-
-            //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            //    if (response.StatusCode != HttpStatusCode.OK)
-            //    {
-            //        MessageBox.Show(response.ToString());
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Plan zaktualizowano");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    MessageBox.Show(ex.Message);
-            //}
-            //try
-            //{
-
-            //    var httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
-
-            //    httpWebRequest.Method = "PUT";
-            //    httpWebRequest.ContentType = "application/json";
-            //    using (var sw = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //    {
-            //        sw.Write(json);
-            //        sw.Flush();
-            //        sw.Close();
-
-            //        var response = (HttpWebResponse)httpWebRequest.GetResponse();
-            //        if (response.StatusCode != HttpStatusCode.OK)
-            //        {
-            //            MessageBox.Show(response.ToString());
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Plan zaktualizowano");
-            //        }
-            //    }
-
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
         }
             public static string FetchTimetable()
         {
