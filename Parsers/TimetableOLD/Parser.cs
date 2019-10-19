@@ -15,6 +15,7 @@ namespace Parsers.TimetableOLD
 
             StreamReader sr = new StreamReader(filepath);
             string[] lines = Regex.Split(sr.ReadToEnd(), Environment.NewLine);
+            sr.Close();
 
             var events = new List<TimetableEvent>();
             var date = new DateTime();
@@ -168,6 +169,7 @@ namespace Parsers.TimetableOLD
             {
                 result = result.MergeTimetables(ParseTimetableFile(fp));
             }
+            result.SortTimetable();
             return result;
         }
 

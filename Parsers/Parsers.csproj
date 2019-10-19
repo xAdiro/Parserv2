@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimetableNew\Models\TimetableAcademicYear.cs" />
     <Compile Include="TimetableOLD\Models\Dictionaries.cs" />
     <Compile Include="TimetableOLD\Models\Timetable.cs" />
     <Compile Include="TimetableOLD\Models\TimetableEvent.cs" />

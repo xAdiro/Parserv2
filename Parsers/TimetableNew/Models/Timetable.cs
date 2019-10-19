@@ -9,13 +9,13 @@ namespace Parsers.TimetableNew.Models
     public class Timetable
     {
         public DateTime Date { get; set; }
-        public List<TimetableDepartment> Departments { get; set; } = new List<TimetableDepartment>();
+        public List<TimetableAcademicYear> AcademicYears { get; set; } = new List<TimetableAcademicYear>();
 
-        public List<TimetableDepartment> this[string DepartmentName] 
+        public List<TimetableAcademicYear> this[string AcademicYearName] 
         {
             get
             {
-                return Departments.FindAll(i => i.Department == DepartmentName);
+                return AcademicYears.FindAll(i => i.AcademicYear == AcademicYearName);
             } 
         }
 
@@ -26,6 +26,7 @@ namespace Parsers.TimetableNew.Models
             {
                 TimetableEvent e = new TimetableEvent()
                 {
+                    AcademicYear = item.AcademicYear,
                     Building = item.Building ?? "",
                     EndTime = DateTime.ParseExact(item.EndTime, new[] { "HH:mm", "H:mm" }, null, DateTimeStyles.AllowWhiteSpaces),
                     StartTime = DateTime.ParseExact(item.StartTime, new[] { "HH:mm", "H:mm" }, null, DateTimeStyles.AllowWhiteSpaces),
@@ -39,7 +40,7 @@ namespace Parsers.TimetableNew.Models
                     Type = item.Type,
 
                 };
-                TimetableDepartment td = Parser.MakeTimetableDepartment(item.Department, item.Mode, item.FieldOfStudy, Convert.ToInt32(item.Semester), item.Degree.ToLower(), Convert.ToInt32(item.Year), (DayOfWeek)Convert.ToInt32(Dictionaries.DaysOfWeekDictionary.First(i => i.Value == item.DayOfWeek).Key), e);
+                TimetableAcademicYear td = Parser.MakeTimetableAcademicYear(item.AcademicYear ,item.Department, item.Mode, item.FieldOfStudy, Convert.ToInt32(item.Semester), item.Degree.ToLower(), Convert.ToInt32(item.Year), (DayOfWeek)Convert.ToInt32(Dictionaries.DaysOfWeekDictionary.First(i => i.Value == item.DayOfWeek).Key), e);
                 Parser.MergeToTimetable(t, td);
             }
             Parser.SortTimetable(t);

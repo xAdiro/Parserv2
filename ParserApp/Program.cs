@@ -28,7 +28,7 @@ namespace ParserApp
             //}
             
             string[] odps = { "1", "2", "3"};
-            string odp = "";
+            string odp;
             do
             {
                 Console.WriteLine("Co chcesz zrobić?:");
@@ -70,7 +70,7 @@ namespace ParserApp
                 //counting events
                 int tEventsNumber = 0;
                 int tmEventsNumber = ((List<Parsers.TimetableOLD.Models.TimetableEvent>)tOLD.Events).Count;
-                foreach (var item in tn.Departments)
+                foreach (var item in tn.AcademicYears)
                     foreach (var item2 in item.Modes)
                         foreach (var item3 in item2.Fields)
                             foreach (var item4 in item3.Semesters)
@@ -104,7 +104,7 @@ namespace ParserApp
                 //counting events
                 int tEventsNumber = 0;
                 int tmEventsNumber = ((List<Parsers.TimetableOLD.Models.TimetableEvent>)tOLD.Events).Count;
-                foreach (var item in tn.Departments)
+                foreach (var item in tn.AcademicYears)
                     foreach (var item2 in item.Modes)
                         foreach (var item3 in item2.Fields)
                             foreach (var item4 in item3.Semesters)

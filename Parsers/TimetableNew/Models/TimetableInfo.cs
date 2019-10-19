@@ -2,6 +2,7 @@
 {
     public class TimetableInfo
     {
+        public string AcademicYear { get; set; }
         public string Department { get; set; }
         public string Mode { get; set; }
         public string Field { get; set; }

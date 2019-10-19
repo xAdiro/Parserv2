@@ -5,6 +5,7 @@ namespace Parsers.TimetableNew.Models
 {
     public class TimetableEvent
     {
+        public string AcademicYear { get; set; } = "";
         public string Name { get; set; } = "";
         public string Type { get; set; } = "";
         public bool IsFaculty { get; set; }
@@ -19,6 +20,7 @@ namespace Parsers.TimetableNew.Models
 
         public bool EqualsExceptGroups(TimetableEvent e)
         {
+            if (!AcademicYear.Equals(e.AcademicYear)) return false;
             if (!Name.Equals(e.Name)) return false;
             if (!Type.Equals(e.Type)) return false;
             if (!IsFaculty.Equals(e.IsFaculty)) return false;
