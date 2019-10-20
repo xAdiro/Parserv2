@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,20 +7,44 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlanWzimParserAndUploader
 {
     public partial class Form1 : Form
     {
+        private string Version { get; } = "v1.0.0";
         public Form1()
         {
             InitializeComponent();
         }
+        private async Task<bool> CheckLatestRelease()
+        {
+            GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("matyjb"));
+            try
+            {
+                Release latest = await ghClient.Repository.Release.GetLatest(161249677);
+                if(latest.TagName.CompareTo(Version) <= 0)
+                {
+                    if (MessageBox.Show("Wykryto nową wersje aplikacji\nCzy chcesz ją pobrać?","Aktualizacja", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start("https://github.com/matyjb/Parserv2/releases");
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
+            label1.Text = "version: " + Version;
             //spr czy jest nowa wersja apki
-
+            CheckLatestRelease();
             //download date planu z serwera
             RefreshTimetableDate();
         }
@@ -204,6 +229,17 @@ namespace PlanWzimParserAndUploader
             string date = PlanWzimServices.GetDate();
             label3.Text = label3.Text.Remove(label3.Text.IndexOf(':'));
             label3.Text += ": " + date;
+        }
+
+        private async void BCheckUpdate_Click(object sender, EventArgs e)
+        {
+            bCheckUpdate.Enabled = false;
+            bool isUpdate = await CheckLatestRelease();
+            if (!isUpdate)
+            {
+                MessageBox.Show("Brak aktualizacji");
+            }
+            bCheckUpdate.Enabled = true;
         }
     }
     public static class PlanWzimServices

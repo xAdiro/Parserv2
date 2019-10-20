@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbOldFiles = new System.Windows.Forms.ListBox();
             this.lbNewFiles = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,6 +44,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.bCheckUpdate = new System.Windows.Forms.Button();
+            this.ttCheckUpdate = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // lbOldFiles
@@ -66,11 +69,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(40, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "version: 1.0";
+            this.label1.Text = "version";
             // 
             // bFilesLoad
             // 
@@ -144,7 +147,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(98, 13);
+            this.label3.Location = new System.Drawing.Point(153, 13);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(176, 13);
             this.label3.TabIndex = 10;
@@ -186,11 +189,32 @@
             this.label7.TabIndex = 14;
             this.label7.Text = "0";
             // 
+            // bCheckUpdate
+            // 
+            this.bCheckUpdate.AccessibleDescription = "";
+            this.bCheckUpdate.AccessibleName = "";
+            this.bCheckUpdate.BackgroundImage = global::PlanWzimParserAndUploader.Properties.Resources.refresh_double_rounded_flat;
+            this.bCheckUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bCheckUpdate.ForeColor = System.Drawing.SystemColors.Control;
+            this.bCheckUpdate.Location = new System.Drawing.Point(9, 5);
+            this.bCheckUpdate.Name = "bCheckUpdate";
+            this.bCheckUpdate.Size = new System.Drawing.Size(25, 25);
+            this.bCheckUpdate.TabIndex = 15;
+            this.ttCheckUpdate.SetToolTip(this.bCheckUpdate, "Sprawdź aktualizacje");
+            this.bCheckUpdate.UseVisualStyleBackColor = true;
+            this.bCheckUpdate.Click += new System.EventHandler(this.BCheckUpdate_Click);
+            // 
+            // ttCheckUpdate
+            // 
+            this.ttCheckUpdate.Tag = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 446);
+            this.Controls.Add(this.bCheckUpdate);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -231,6 +255,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button bCheckUpdate;
+        private System.Windows.Forms.ToolTip ttCheckUpdate;
     }
 }
 
