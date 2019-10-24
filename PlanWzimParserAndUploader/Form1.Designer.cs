@@ -46,6 +46,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.bCheckUpdate = new System.Windows.Forms.Button();
             this.ttCheckUpdate = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lbOldFiles
@@ -53,14 +54,14 @@
             this.lbOldFiles.FormattingEnabled = true;
             this.lbOldFiles.Location = new System.Drawing.Point(12, 42);
             this.lbOldFiles.Name = "lbOldFiles";
-            this.lbOldFiles.Size = new System.Drawing.Size(454, 238);
+            this.lbOldFiles.Size = new System.Drawing.Size(454, 212);
             this.lbOldFiles.TabIndex = 0;
             this.lbOldFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LbOldFiles_KeyDown);
             // 
             // lbNewFiles
             // 
             this.lbNewFiles.FormattingEnabled = true;
-            this.lbNewFiles.Location = new System.Drawing.Point(12, 299);
+            this.lbNewFiles.Location = new System.Drawing.Point(12, 273);
             this.lbNewFiles.Name = "lbNewFiles";
             this.lbNewFiles.Size = new System.Drawing.Size(454, 95);
             this.lbNewFiles.TabIndex = 0;
@@ -77,9 +78,9 @@
             // 
             // bFilesLoad
             // 
-            this.bFilesLoad.Location = new System.Drawing.Point(12, 403);
+            this.bFilesLoad.Location = new System.Drawing.Point(9, 381);
             this.bFilesLoad.Name = "bFilesLoad";
-            this.bFilesLoad.Size = new System.Drawing.Size(317, 29);
+            this.bFilesLoad.Size = new System.Drawing.Size(292, 51);
             this.bFilesLoad.TabIndex = 3;
             this.bFilesLoad.Text = "Ładowanie plików";
             this.bFilesLoad.UseVisualStyleBackColor = true;
@@ -121,15 +122,15 @@
             this.rtbOutput.Location = new System.Drawing.Point(472, 29);
             this.rtbOutput.Name = "rtbOutput";
             this.rtbOutput.ReadOnly = true;
-            this.rtbOutput.Size = new System.Drawing.Size(316, 311);
+            this.rtbOutput.Size = new System.Drawing.Size(316, 309);
             this.rtbOutput.TabIndex = 7;
             this.rtbOutput.Text = "";
             // 
             // bParse
             // 
-            this.bParse.Location = new System.Drawing.Point(335, 403);
+            this.bParse.Location = new System.Drawing.Point(307, 403);
             this.bParse.Name = "bParse";
-            this.bParse.Size = new System.Drawing.Size(131, 29);
+            this.bParse.Size = new System.Drawing.Size(159, 29);
             this.bParse.TabIndex = 8;
             this.bParse.Text = "Parsuj";
             this.bParse.UseVisualStyleBackColor = true;
@@ -165,7 +166,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 283);
+            this.label5.Location = new System.Drawing.Point(9, 257);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 13);
             this.label5.TabIndex = 12;
@@ -183,7 +184,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(431, 283);
+            this.label7.Location = new System.Drawing.Point(431, 257);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(13, 13);
             this.label7.TabIndex = 14;
@@ -209,11 +210,24 @@
             // 
             this.ttCheckUpdate.Tag = "";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox1.Location = new System.Drawing.Point(307, 381);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(159, 17);
+            this.checkBox1.TabIndex = 17;
+            this.checkBox1.Text = "nadpisz date na teraźniejszą";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Click += new System.EventHandler(this.CheckBox1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 446);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.bCheckUpdate);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -257,6 +271,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button bCheckUpdate;
         private System.Windows.Forms.ToolTip ttCheckUpdate;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

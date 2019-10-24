@@ -15,6 +15,7 @@ namespace PlanWzimParserAndUploader
     public partial class Form1 : Form
     {
         private string Version { get; } = "v1.0.0";
+        private bool forceDateNow = false;
         public Form1()
         {
             InitializeComponent();
@@ -147,16 +148,19 @@ namespace PlanWzimParserAndUploader
                     Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
                     //merge
                     Parsers.TimetableOLD.Models.Timetable tResult = tOLD.MergeTimetables(tOLD2);
+                    if (forceDateNow) tResult.Date = DateTime.Now;
                     output = JsonConvert.SerializeObject(tResult);
                 }
                 else if(lbNewFiles.Items.Count > 0)
                 {
                     Parsers.TimetableOLD.Models.Timetable tOLD = ParseNew();
+                    if (forceDateNow) tOLD.Date = DateTime.Now;
                     output = JsonConvert.SerializeObject(tOLD);
                 }
                 else if (lbOldFiles.Items.Count > 0)
                 {
                     Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
+                    if (forceDateNow) tOLD2.Date = DateTime.Now;
                     output = JsonConvert.SerializeObject(tOLD2);
                 }
                 else
@@ -241,6 +245,11 @@ namespace PlanWzimParserAndUploader
             }
             bCheckUpdate.Enabled = true;
         }
+
+        private void CheckBox1_Click(object sender, EventArgs e)
+        {
+            forceDateNow = checkBox1.Checked;
+        }
     }
     public static class PlanWzimServices
     {
@@ -259,13 +268,20 @@ namespace PlanWzimParserAndUploader
         public static async void PutJson(string json)
         {
             //tmp fix (bad time on server)
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
-                int minutes = DateTime.Now.Minute - i - 1;
-                if (minutes < 0) minutes += 60;
+                int hours = DateTime.Now.Hour;
+                int minutes = DateTime.Now.Minute - i;
+                if (minutes < 0)
+                {
+                    hours--;
+                    if (hours < 0) hours = 24;
+                    minutes += 60;
+                }
+
                 //
 
-                string permission = $"GHGZ0-{minutes}-{DateTime.Now.Hour}-mzqZ934-dxd9";
+                string permission = $"GHGZ0-{minutes}-{hours}-mzqZ934-dxd9";
                 string uri = "https://plan.silver.sggw.pl/api/timetable/list/" + permission;
                 using (var client = new HttpClient())
                 {
