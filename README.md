@@ -29,7 +29,7 @@ Plik jest podzielony na sekcje, które zaczynają się linią:
 Każda z sekcji jest opcjonalna oprócz sekcji `INFO`
 
 ## Sekcja `GROUPS`
-W niej tworzymy prostą mapę numeru grupy studenckiej do specjalizacji np.:\
+W niej tworzymy prostą mapę numerów grup studenckich do ich specjalizacji np.:
 ```
 1; ISI
 2; ISK
@@ -50,7 +50,7 @@ na przykład:\
 Sekcje kończymy linią `end_info.`
 
 ## Sekcje dnia tygodnia
-W niej listujemy zajęcia w formacie:\
+W niej listujemy zajęcia w formacie:
 ```
 <tytuł zajęć>; <typ zajęć>
 <numery grup>
@@ -69,7 +69,18 @@ gdzie:\
  
 `numery grup` - numery grup studenckich, dla których sa przeznaczone zajęcia oddzielone `;`\
 `<start>-<koniec>` - okres godzinowy trwania zajęć w formacie HH:mm\
-`<budynek>` - numer budynku (ten parametr można pominąć - jego domyślna wartość to 34)\
+`<budynek>` - numer budynku (ten parametr można pominąć - jego domyślna wartość to 34)
+
+przykład:
+```
+Wstęp do programowania; w
+1;2;3;4;5
+16:00-17:45
+Aula IV
+Waldemar Karwowski
+6 zjazdów normalnie, 2 zjazdy 15 minut krócej
+end_event.
+```
 
 Plik należy zakończyć linią `end.`
 
@@ -85,7 +96,7 @@ Nagłówek pliku (linia 0 oraz 1)
 ```
 gdzie <specjalizacja> jest parametrem opcjonalnym (jeśli podany zastępuje nr grupy)
 
-przykład:\
+przykład:
 ```
 18.10.2019 17:34
 WZIM, 2019, J, ST, IiE, lic, R2, S3, gr3, ISI-1;
@@ -93,7 +104,7 @@ WZIM, 2019, J, ST, IiE, lic, R2, S3, gr3, ISI-1;
 
 Następnie jest linia oddzielająca\
 `------------------------------------------------`\
-Nastepnie każde z zajęć jest reprezentowane następująco:\
+Nastepnie każde z zajęć jest reprezentowane następująco:
 ```
 ZJ_<numer zajęć>
 <Tytuł zajęć> [<typ zajęć>]
@@ -117,6 +128,17 @@ gdzie:\
  - itd...
  
 `<start>-<koniec>` - okres godzinowy trwania zajęć w formacie HH:mm\
-`<budynek>` - numer budynku (ten parametr można pominąć - jego domyślna wartość to 34)\
+`<budynek>` - numer budynku (ten parametr można pominąć - jego domyślna wartość to 34)
+
+przykład:
+```
+ZJ_03
+Podstawy ekonometrii [Lab]
+d1, 15:00-16:30
+2066, 23
+Jolanta Kotlarska
+U: przykładowe uwagi
+------------------------------------------------
+```
 
 Plik należy zakończyć linią `.end`
