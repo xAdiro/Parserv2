@@ -2,10 +2,10 @@
 
 1. [Opis](#Opis)
 2. [Formaty plików tekstowych](#Formaty-plików-tekstowych)
-   - [Nowszy format (.pwzim)](#Nowszy-format-(.pwzim))
-   - [Stary format (.txt)](#Stary-format-(.txt))
+   - [Nowszy format](#Nowszy-format)
+   - [Stary format](#Stary-format)
 3. [Formaty plików json](#Formaty-plików-json)
-   - [Pierwotny (używany do teraz)](#Pierwotny-(używany-do-teraz))
+   - [Pierwotny](#Pierwotny)
    - [Proponowany](#Proponowany)
 
 # Opis
@@ -21,7 +21,8 @@ Funkcje programu to:
 
 --------------------------------------------------------------------------------------------------------------------------
 # Formaty plików tekstowych
-## Nowszy format (.pwzim)
+## Nowszy format
+Rozszerzenie .pwzim
 Jest format bardziej kompaktowy od starszego. Każdy plik reprezentuje jeden rocznik studentów na danym kierunku.
 Plik jest podzielony na sekcje, które zaczynają się linią:
  - `GROUPS` - zakończona `end_groups.` - informuje o mapowaniu grup do danych specjalizacji
@@ -95,7 +96,8 @@ Plik należy zakończyć linią `end.`
 
 --------------------------------------------------------------------------------------------------------------------------
 
-## Stary format (.txt)
+## Stary format
+Rozszerzenie .txt
 Każdy plik reprezentuje jedną grupe studencką i jej zajęcia.
 
 Nagłówek pliku (linia 0 oraz 1)
@@ -153,7 +155,8 @@ U: przykładowe uwagi
 Plik należy zakończyć linią `.end`
 
 # Formaty plików .json
-## Pierwotny (używane do teraz)
+## Pierwotny
+Jest to format używany do teraz.
 Każde z wydarzeń z wydarzeń jest reprezentowane przez obiekt, a zbiór tych wydarzeń w tablicy `events`.
 ```js
 {
