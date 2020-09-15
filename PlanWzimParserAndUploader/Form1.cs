@@ -114,8 +114,8 @@ namespace PlanWzimParserAndUploader
             // parsuj pliki z listboxów na typ stary Timetable
             string output;
             bUpload.Enabled = true;
-            try
-            {
+            //try
+            //{
                 Parsers.TimetableOLD.Models.Timetable ParseNew()
                 {
                     //PLIKI .pwzim
@@ -168,13 +168,13 @@ namespace PlanWzimParserAndUploader
                     output = "Brak plików";
                     bUpload.Enabled = false;
                 }
-            }
-            catch (Exception ex)
-            {
-                // jak są errory to przycisk upload na szaro
-                output = ex.Message;
-                bUpload.Enabled = false;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    // jak są errory to przycisk upload na szaro
+            //    output = ex.Message;
+            //    bUpload.Enabled = false;
+            //}
             // cały output (albo errory) do richboxa 
             rtbOutput.Text = output;
             // zmiana label pochodzenie jsona na "z plików"
@@ -268,7 +268,7 @@ namespace PlanWzimParserAndUploader
         public static async void PutJson(string json)
         {
             //tmp fix (bad time on server)
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 10; i++)
             {
                 int hours = DateTime.Now.Hour;
                 int minutes = DateTime.Now.Minute - i;
@@ -297,7 +297,7 @@ namespace PlanWzimParserAndUploader
                     }
                     else
                     {
-                        MessageBox.Show(response.ToString() + "\nretries left: "+(5-i));
+                        MessageBox.Show(response.ToString() + "\nretries left: "+(11-i));
                     }
                 }
             }
