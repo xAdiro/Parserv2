@@ -1,12 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using GistsApi;
+using Newtonsoft.Json;
 using Octokit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,19 +19,20 @@ namespace PlanWzimParserAndUploader
     {
         private string Version { get; } = "v1.0.0";
         private bool forceDateNow = false;
+
         public Form1()
         {
             InitializeComponent();
         }
         private async Task<bool> CheckLatestRelease()
         {
-            GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("matyjb"));
+            GitHubClient ghClient = new GitHubClient(new Octokit.ProductHeaderValue("Parserv2"));
             try
             {
                 Release latest = await ghClient.Repository.Release.GetLatest(161249677);
-                if(latest.TagName.CompareTo(Version) <= 0)
+                if (latest.TagName.CompareTo(Version) <= 0)
                 {
-                    if (MessageBox.Show("Wykryto nową wersje aplikacji\nCzy chcesz ją pobrać?","Aktualizacja", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show("Wykryto nową wersje aplikacji\nCzy chcesz ją pobrać?", "Aktualizacja", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         System.Diagnostics.Process.Start("https://github.com/matyjb/Parserv2/releases");
                     }
@@ -53,7 +57,7 @@ namespace PlanWzimParserAndUploader
         private void LbOldFiles_KeyDown(object sender, KeyEventArgs e)
         {
             //na delete usunąć zaznaczoną pozycje
-            if(e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete)
             {
                 ListBox.SelectedObjectCollection selectedItems = lbOldFiles.SelectedItems;
 
@@ -94,7 +98,7 @@ namespace PlanWzimParserAndUploader
             {
                 foreach (string file in openFileDialog1.FileNames)
                 {
-                    if (file.Substring(file.LastIndexOf('.'))==".txt")
+                    if (file.Substring(file.LastIndexOf('.')) == ".txt")
                     {
                         lbOldFiles.Items.Add(file);
                     }
@@ -116,58 +120,58 @@ namespace PlanWzimParserAndUploader
             bUpload.Enabled = true;
             //try
             //{
-                Parsers.TimetableOLD.Models.Timetable ParseNew()
+            Parsers.TimetableOLD.Models.Timetable ParseNew()
+            {
+                //PLIKI .pwzim
+                DateTime lastDate = new DateTime();
+                List<string> filesContents = new List<string>();
+                foreach (string filePath in lbNewFiles.Items)
                 {
-                    //PLIKI .pwzim
-                    DateTime lastDate = new DateTime();
-                    List<string> filesContents = new List<string>();
-                    foreach (string filePath in lbNewFiles.Items)
-                    {
-                        StreamReader streamReader = new StreamReader(filePath);
-                        FileInfo fileInfo = new FileInfo(filePath);
-                        if (fileInfo.LastWriteTime > lastDate) lastDate = fileInfo.LastWriteTime;
-                        filesContents.Add(streamReader.ReadToEnd());
-                        streamReader.Close();
-                    }
-                    return (Parsers.TimetableOLD.Models.Timetable)Parsers.TimetableNew.Parser.ParseTimetableFiles(filesContents, lastDate);
+                    StreamReader streamReader = new StreamReader(filePath);
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    if (fileInfo.LastWriteTime > lastDate) lastDate = fileInfo.LastWriteTime;
+                    filesContents.Add(streamReader.ReadToEnd());
+                    streamReader.Close();
                 }
-                Parsers.TimetableOLD.Models.Timetable ParseOld()
+                return (Parsers.TimetableOLD.Models.Timetable)Parsers.TimetableNew.Parser.ParseTimetableFiles(filesContents, lastDate);
+            }
+            Parsers.TimetableOLD.Models.Timetable ParseOld()
+            {
+                //PLIKI .txt
+                List<string> filepaths = new List<string>();
+                foreach (string fp in lbOldFiles.Items)
                 {
-                    //PLIKI .txt
-                    List<string> filepaths = new List<string>();
-                    foreach (string fp in lbOldFiles.Items)
-                    {
-                        filepaths.Add(fp);
-                    }
-                    return Parsers.TimetableOLD.Parser.ParseTimetableFiles(filepaths);
+                    filepaths.Add(fp);
                 }
+                return Parsers.TimetableOLD.Parser.ParseTimetableFiles(filepaths);
+            }
 
-                if(lbNewFiles.Items.Count > 0 && lbOldFiles.Items.Count > 0)
-                {
-                    Parsers.TimetableOLD.Models.Timetable tOLD = ParseNew();
-                    Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
-                    //merge
-                    Parsers.TimetableOLD.Models.Timetable tResult = tOLD.MergeTimetables(tOLD2);
-                    if (forceDateNow) tResult.Date = DateTime.Now;
-                    output = JsonConvert.SerializeObject(tResult);
-                }
-                else if(lbNewFiles.Items.Count > 0)
-                {
-                    Parsers.TimetableOLD.Models.Timetable tOLD = ParseNew();
-                    if (forceDateNow) tOLD.Date = DateTime.Now;
-                    output = JsonConvert.SerializeObject(tOLD);
-                }
-                else if (lbOldFiles.Items.Count > 0)
-                {
-                    Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
-                    if (forceDateNow) tOLD2.Date = DateTime.Now;
-                    output = JsonConvert.SerializeObject(tOLD2);
-                }
-                else
-                {
-                    output = "Brak plików";
-                    bUpload.Enabled = false;
-                }
+            if (lbNewFiles.Items.Count > 0 && lbOldFiles.Items.Count > 0)
+            {
+                Parsers.TimetableOLD.Models.Timetable tOLD = ParseNew();
+                Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
+                //merge
+                Parsers.TimetableOLD.Models.Timetable tResult = tOLD.MergeTimetables(tOLD2);
+                if (forceDateNow) tResult.Date = DateTime.Now;
+                output = JsonConvert.SerializeObject(tResult);
+            }
+            else if (lbNewFiles.Items.Count > 0)
+            {
+                Parsers.TimetableOLD.Models.Timetable tOLD = ParseNew();
+                if (forceDateNow) tOLD.Date = DateTime.Now;
+                output = JsonConvert.SerializeObject(tOLD);
+            }
+            else if (lbOldFiles.Items.Count > 0)
+            {
+                Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
+                if (forceDateNow) tOLD2.Date = DateTime.Now;
+                output = JsonConvert.SerializeObject(tOLD2);
+            }
+            else
+            {
+                output = "Brak plików";
+                bUpload.Enabled = false;
+            }
             //}
             //catch (Exception ex)
             //{
@@ -224,6 +228,9 @@ namespace PlanWzimParserAndUploader
         {
             // upload
             PlanWzimServices.PutJson(rtbOutput.Text);
+            MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
+            PlanWzimServices.PutJsonGists(rtbOutput.Text);
+            MessageBox.Show("plan na github gists zaktualizowany");
             // refresh date
             RefreshTimetableDate();
         }
@@ -289,7 +296,7 @@ namespace PlanWzimParserAndUploader
                         uri,
                         new StringContent(json, Encoding.UTF8, "application/json")
                     );
-              
+
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         MessageBox.Show("Plan zaktualizowano");
@@ -297,12 +304,49 @@ namespace PlanWzimParserAndUploader
                     }
                     else
                     {
-                        MessageBox.Show(response.ToString() + "\nretries left: "+(11-i));
+                        MessageBox.Show(response.ToString() + "\nretries left: " + (11 - i));
                     }
                 }
             }
         }
-            public static string FetchTimetable()
+        public static async void PutJsonGists(string json)
+        {
+            var token = "9369af655dae5096640be136b1705ee3927689f8";
+            string idTimetable = "1f97642898f77f65550ff551eca089ca"; ; //timetable.json
+            string idTimetableDate = "db635e765ddfb8b0405d680ac49c6d50"; ; //timetable_date.json
+            var github = new GitHubClient(new Octokit.ProductHeaderValue("Parserv2"));
+
+            async Task<bool> sendPatch(string content, string id, string filename)
+            {
+                var basicAuth = new Credentials("silvernetgroup", token);
+                github.Credentials = basicAuth;
+
+                GistUpdate gistUpdate = new GistUpdate() { Description = "" };
+                gistUpdate.Files.Add(filename, new GistFileUpdate() { Content = content });
+                try
+                {
+                    Gist g = await github.Gist.Edit(id, gistUpdate);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            if(await sendPatch(json, idTimetable, "timetable.json"))
+                MessageBox.Show("Timetable updated");
+            else
+                MessageBox.Show("Nie zaktualizowano planu");
+            // DateTime.Now replace with date from json
+            dynamic deserializedJson = JsonConvert.DeserializeObject(json);
+            if (await sendPatch(deserializedJson.Date, idTimetableDate, "timetable_date.json"))
+                MessageBox.Show("Date updated");
+            else
+                MessageBox.Show("Nie zaktualizowano planu");
+
+        }
+        public static string FetchTimetable()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://plan.silver.sggw.pl/api/timetable/");
             request.Method = "Get";
@@ -312,6 +356,87 @@ namespace PlanWzimParserAndUploader
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             StreamReader sr = new StreamReader(response.GetResponseStream());
             return sr.ReadToEnd();
+        }
+    }
+
+
+    public static class HttpClientExtensions
+    {
+        /// <summary>
+        /// Send a PATCH request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+        /// </returns>
+        /// <param name="client">The instantiated Http Client <see cref="HttpClient"/></param>
+        /// <param name="requestUri">The Uri the request is sent to.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+        public static Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content)
+        {
+            return client.PatchAsync(CreateUri(requestUri), content);
+        }
+
+        /// <summary>
+        /// Send a PATCH request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+        /// </returns>
+        /// <param name="client">The instantiated Http Client <see cref="HttpClient"/></param>
+        /// <param name="requestUri">The Uri the request is sent to.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+        public static Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, HttpContent content)
+        {
+            return client.PatchAsync(requestUri, content, CancellationToken.None);
+        }
+        /// <summary>
+        /// Send a PATCH request with a cancellation token as an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+        /// </returns>
+        /// <param name="client">The instantiated Http Client <see cref="HttpClient"/></param>
+        /// <param name="requestUri">The Uri the request is sent to.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+        public static Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+        {
+            return client.PatchAsync(CreateUri(requestUri), content, cancellationToken);
+        }
+
+        /// <summary>
+        /// Send a PATCH request with a cancellation token as an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Returns <see cref="T:System.Threading.Tasks.Task`1"/>.The task object representing the asynchronous operation.
+        /// </returns>
+        /// <param name="client">The instantiated Http Client <see cref="HttpClient"/></param>
+        /// <param name="requestUri">The Uri the request is sent to.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="client"/> was null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="requestUri"/> was null.</exception>
+        public static Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, HttpContent content, CancellationToken cancellationToken)
+        {
+            return client.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
+            {
+                Content = content
+            }, cancellationToken);
+        }
+
+        private static Uri CreateUri(string uri)
+        {
+            return string.IsNullOrEmpty(uri) ? null : new Uri(uri, UriKind.RelativeOrAbsolute);
         }
     }
 }
