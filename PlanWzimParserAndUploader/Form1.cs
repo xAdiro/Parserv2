@@ -20,6 +20,8 @@ namespace PlanWzimParserAndUploader
         private string Version { get; } = "v1.0.0";
         private bool forceDateNow = false;
 
+        private Parsers.TimetableOLD.Models.Timetable timetableResult;
+
         public Form1()
         {
             InitializeComponent();
@@ -153,18 +155,24 @@ namespace PlanWzimParserAndUploader
                 //merge
                 Parsers.TimetableOLD.Models.Timetable tResult = tOLD.MergeTimetables(tOLD2);
                 if (forceDateNow) tResult.Date = DateTime.Now;
+                timetableResult = tOLD;
+
                 output = JsonConvert.SerializeObject(tResult);
             }
             else if (lbNewFiles.Items.Count > 0)
             {
                 Parsers.TimetableOLD.Models.Timetable tOLD = ParseNew();
                 if (forceDateNow) tOLD.Date = DateTime.Now;
+                timetableResult = tOLD;
+
                 output = JsonConvert.SerializeObject(tOLD);
             }
             else if (lbOldFiles.Items.Count > 0)
             {
                 Parsers.TimetableOLD.Models.Timetable tOLD2 = ParseOld();
                 if (forceDateNow) tOLD2.Date = DateTime.Now;
+                timetableResult = tOLD2;
+
                 output = JsonConvert.SerializeObject(tOLD2);
             }
             else
@@ -229,7 +237,11 @@ namespace PlanWzimParserAndUploader
             // upload
             PlanWzimServices.PutJson(rtbOutput.Text);
             MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
-            PlanWzimServices.PutJsonGists(rtbOutput.Text);
+
+            // experimental 1.5 old json format
+            PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableOLD2.Models.Timetable)timetableResult));
+            //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableNew.Models.Timetable)timetableResult));
+            //PlanWzimServices.PutNewJsonGists(rtbOutput.Text);
             MessageBox.Show("plan na github gists zaktualizowany");
             // refresh date
             RefreshTimetableDate();
@@ -309,7 +321,7 @@ namespace PlanWzimParserAndUploader
                 }
             }
         }
-        public static async void PutJsonGists(string json)
+        public static async void PutNewJsonGists(string json)
         {
             var token = "9369af655dae5096640be136b1705ee3927689f8";
             string idTimetable = "1f97642898f77f65550ff551eca089ca"; ; //timetable.json

@@ -79,7 +79,19 @@ namespace Parsers.TimetableOLD
             var year = info[6].Trim().Substring(1).ToString();
             var semester = info[7].Trim().Substring(1).ToString();
             // szybki fix grup (jesli grupy sa brane pod uwage to powinno byc ok, jesli specka jest brana ta wartosc mozliwe ze bedzie spierdolona)
-            var group = info[8].Trim().Substring(2, info[8].Trim().IndexOf(';') == -1 ? info[8].Trim().Length-2 : info[8].Trim().Length-4).ToString();
+            info[8] = info[8].Trim();
+            int groupLastCharIndex = info[8].Length;
+            if(info[8].IndexOf(';') != -1)
+            {
+                groupLastCharIndex = info[8].IndexOf(';');
+            }
+            if (info[8].IndexOf(' ') != -1)
+            {
+                if(info[8].IndexOf(' ') < groupLastCharIndex)
+                    groupLastCharIndex = info[8].IndexOf(' ');
+            }
+
+            var group = info[8].Trim().Substring(2, groupLastCharIndex-2).ToString();
             var specialization = info.Length == 10 ? string.Concat(info[9].Take(info[9].Length - 1)).Trim() : "";
             int.TryParse(info[1], out int creationYear);
             var academicYear = info[2].ToLower().Trim() == "jesień" || info[2].ToLower().Trim() == "j"
