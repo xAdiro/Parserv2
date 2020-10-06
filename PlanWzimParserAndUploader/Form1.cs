@@ -155,7 +155,7 @@ namespace PlanWzimParserAndUploader
                 //merge
                 Parsers.TimetableOLD.Models.Timetable tResult = tOLD.MergeTimetables(tOLD2);
                 if (forceDateNow) tResult.Date = DateTime.Now;
-                timetableResult = tOLD;
+                timetableResult = tResult;
 
                 output = JsonConvert.SerializeObject(tResult);
             }
@@ -239,7 +239,12 @@ namespace PlanWzimParserAndUploader
             MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
 
             // experimental 1.5 old json format
-            PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableOLD2.Models.Timetable)timetableResult));
+            Parsers.TimetableOLD2.Models.Timetable t = (Parsers.TimetableOLD2.Models.Timetable)timetableResult;
+            if (forceDateNow)
+            {
+                t.Date = DateTime.Now;
+            }
+            PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject(t));
             //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableNew.Models.Timetable)timetableResult));
             //PlanWzimServices.PutNewJsonGists(rtbOutput.Text);
             MessageBox.Show("plan na github gists zaktualizowany");
@@ -354,10 +359,11 @@ namespace PlanWzimParserAndUploader
             // To get correct format of date string
             dynamic deserializedJson = JsonConvert.DeserializeObject(json);
             DateTime date = deserializedJson.Date;
+
             if (await sendPatch(JsonConvert.SerializeObject(date), idTimetableDate, "timetable_date.json"))
-                MessageBox.Show("Date updated");
+                MessageBox.Show("Date updated " + date.ToString());
             else
-                MessageBox.Show("Nie zaktualizowano planu");
+                MessageBox.Show("Nie zaktualizowano daty");
 
         }
         public static string FetchTimetable()

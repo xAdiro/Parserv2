@@ -33,7 +33,10 @@ namespace Parsers.TimetableOLD2.Models
                 {
                     if (finalEvents[i].Equals(finalEvents[j]))
                     {
-                        finalEvents[i].Group.AddRange(finalEvents[j].Group);
+                        foreach (var item in finalEvents[j].Group)
+                        {
+                            finalEvents[i].Group.Add(item);
+                        }
                         finalEvents.RemoveAt(j);
                     }
                     else

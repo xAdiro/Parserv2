@@ -26,13 +26,13 @@ namespace Parsers.TimetableOLD.Models
         public static Dictionary<string, string> FieldsDictionary = new Dictionary<string, string>
         {
             {"INF", "Informatyka"},
-            {"IIE", "Informatyka i ekonometria" }
+            {"IIE", "Informatyka i Ekonometria" }
         };
 
         public static Dictionary<string, string> FieldsDictionary2 = new Dictionary<string, string>
         {
             {"Informatyka", "Inf"},
-            {"Informatyka i ekonometria", "IiE" }
+            {"Informatyka i Ekonometria", "IiE" }
         };
 
         public static Dictionary<string, string> DaysOfWeekDictionary = new Dictionary<string, string>
@@ -62,7 +62,8 @@ namespace Parsers.TimetableOLD.Models
             {"ĆW", "ćwiczenia"},
             {"CW", "ćwiczenia" },
             {"LAB", "laboratorium"},
-            {"FAQ", "Fakultet" }
+            {"FAQ", "fakultet" },
+            {"F", "fakultet" }
         };
 
         public static Dictionary<string, string> TypesOfEventDictionary2 = new Dictionary<string, string>()
@@ -71,6 +72,32 @@ namespace Parsers.TimetableOLD.Models
             {"ćwiczenia", "ĆW"},
             {"laboratorium", "LAB"},
             {"Fakultet", "FAQ" }
+        };
+        public static Dictionary<string, string> DegreesDictionary = new Dictionary<string, string>()
+        {
+            {"INŻ", "inżyrierskie"},
+            {"INZ", "inżyrierskie"},
+            {"MGR", "magisterskie"},
+            {"LIC", "licencjackie"},
+            {"DR", "doktorat" }
+        };
+        public static Dictionary<string, string> DegreesDictionary2 = new Dictionary<string, string>()
+        {
+            {"INŻYNIERSKIE", "inż"},
+            {"INZYNIERSKIE", "inż"},
+            {"INŻYNIER", "inż"},
+            {"INZYNIER", "inż"},
+            {"INZ", "inż"},
+            {"INŻ", "inż"},
+            {"LICENCJACKIE", "lic"},
+            {"LICENCJAT", "lic"},
+            {"LIC", "lic"},
+            {"MAGISTERSKIE", "mgr"},
+            {"MAGISTER", "mgr"},
+            {"MGR", "mgr"},
+            {"DOKTORAT", "dr"},
+            {"DOKTOR", "dr"},
+            {"DR", "dr"},
         };
     }
 }

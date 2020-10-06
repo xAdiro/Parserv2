@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Parsers.TimetableOLD2.Models
 {
@@ -35,35 +36,46 @@ namespace Parsers.TimetableOLD2.Models
         public string Mode { get; set; }
         public string Year { get; set; }
         public string Semester { get; set; }
-        public List<TimetableGroup> Group { get; set; }
+        public HashSet<TimetableGroup> Group { get; set; }
         public bool IsFaculty { get; set; }
         public string FacultyGroup { get; set; }
         public string Degree { get; set; }
         public string Name { get; set; }
-        public string DayOfWeek { get; set; }
+        public int DayOfWeek { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string Building { get; set; }
         public string Room { get; set; }
-        public string[] Lecturers { get; set; }
+        public HashSet<string> Lecturers { get; set; }
         public string Type { get; set; }
         public string Remarks { get; set; }
         public string AcademicYear { get; set; }
 
         public static explicit operator TimetableEvent(TimetableOLD.Models.TimetableEvent timetableOldEvent)
         {
+            HashSet<string> lecturers = new HashSet<string>();
+            List<string> days = new List<string>() { "PN", "WT", "ŚR", "CZW", "PT", "SO", "NIE" };
+            foreach (var l in timetableOldEvent.Lecturers)
+            {
+                lecturers.Add(l);
+            }
+            int dayIndex = days.IndexOf(timetableOldEvent.DayOfWeek);
+            if(dayIndex > days.Count || dayIndex < 0)
+            {
+                MessageBox.Show("dzień nieznaleziony!");
+            }
             return new TimetableEvent()
             {
                 AcademicYear = timetableOldEvent.AcademicYear,
                 Building = timetableOldEvent.Building,
-                DayOfWeek = timetableOldEvent.DayOfWeek,
+                DayOfWeek = dayIndex,
                 Degree = timetableOldEvent.Degree,
                 Department = timetableOldEvent.Department,
                 EndTime = timetableOldEvent.EndTime,
                 FacultyGroup = timetableOldEvent.FacultyGroup,
                 FieldOfStudy = timetableOldEvent.FieldOfStudy,
                 IsFaculty = timetableOldEvent.IsFaculty,
-                Lecturers = timetableOldEvent.Lecturers,
+                Lecturers = lecturers,
                 Mode = timetableOldEvent.Mode,
                 Name = timetableOldEvent.Name,
                 Remarks = timetableOldEvent.Remarks,
@@ -72,7 +84,7 @@ namespace Parsers.TimetableOLD2.Models
                 StartTime = timetableOldEvent.StartTime,
                 Type = timetableOldEvent.Type,
                 Year = timetableOldEvent.Year,
-                Group = new List<TimetableGroup>() { new TimetableGroup() { Group = timetableOldEvent.Group, Specialization = timetableOldEvent.Specialization } },
+                Group = new HashSet<TimetableGroup>() { new TimetableGroup() { Group = timetableOldEvent.Group, Specialization = timetableOldEvent.Specialization } },
             };
         }
 
@@ -94,7 +106,7 @@ namespace Parsers.TimetableOLD2.Models
             if (EndTime != other.EndTime) return false;
             if (Building != other.Building) return false;
             if (Room != other.Room) return false;
-            //if (Lecturers != other.Lecturers) return false;
+            //if (!Lecturers.SetEquals(other.Lecturers)) return false;
             if (Type != other.Type) return false;
             if (Remarks != other.Remarks) return false;
             if (AcademicYear != other.AcademicYear) return false;

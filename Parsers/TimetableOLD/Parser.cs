@@ -73,9 +73,9 @@ namespace Parsers.TimetableOLD
             var isFieldKnown = Dictionaries.FieldsDictionary.TryGetValue(info[4].Trim().ToUpper(), out var fieldOfStudy);
             var mode = Dictionaries.ModesDictionary.ContainsKey(info[3].Trim().ToUpper())
                 ? Dictionaries.ModesDictionary[info[3].Trim().ToUpper()]
-                : info[3].Trim().ToUpper();
+                : info[3].Trim();
             //var fieldOfStudy = Dictionaries.FieldsDictionary[info[4].Trim().ToUpper()];
-            var degree = info[5].Trim();
+            var degree = Dictionaries.DegreesDictionary2.ContainsKey(info[5].Trim().ToUpper()) ? Dictionaries.DegreesDictionary2[info[5].Trim().ToUpper()] : info[5].Trim();
             var year = info[6].Trim().Substring(1).ToString();
             var semester = info[7].Trim().Substring(1).ToString();
             // szybki fix grup (jesli grupy sa brane pod uwage to powinno byc ok, jesli specka jest brana ta wartosc mozliwe ze bedzie spierdolona)
@@ -153,7 +153,7 @@ namespace Parsers.TimetableOLD
                         Semester = semester,
                         Group = group,
                         Specialization = specialization,
-                        FieldOfStudy = isFieldKnown ? fieldOfStudy : info[4].Trim().ToUpper(),
+                        FieldOfStudy = isFieldKnown ? fieldOfStudy : info[4].Trim(),
                         AcademicYear = academicYear,
                         IsFaculty = lines[i + 1].Contains("(Faq)") || lines[i + 1].Contains("(faq)") || lines[i + 1].Contains("(f)") || lines[i + 1].Contains("(F)"),
                         FacultyGroup = string.Concat(lines[i + 1].SkipWhile(c => c != ')').Skip(1).SkipWhile(c => c != ')').SkipWhile(c => c != '(').Skip(1).TakeWhile(c => c != ')')).Trim()

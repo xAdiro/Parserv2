@@ -77,12 +77,12 @@ namespace Parsers.TimetableOLD.Models
                                         foreach (var group in e.Groups)
                                         {
                                             //dictionaries
-                                            string field = fieldOfStudy.FieldOfStudy.ToUpper();
-                                            string mode2 = mode.Mode.ToUpper();
-                                            string type = e.Type.ToUpper();
-                                            if (Dictionaries.FieldsDictionary.ContainsKey(field)) field = Dictionaries.FieldsDictionary[field];
-                                            if (Dictionaries.ModesDictionary.ContainsKey(mode2)) mode2 = Dictionaries.ModesDictionary[mode2];
-                                            if (Dictionaries.TypesOfEventDictionary.ContainsKey(type)) type = Dictionaries.TypesOfEventDictionary[type];
+                                            string field = fieldOfStudy.FieldOfStudy;
+                                            string mode2 = mode.Mode;
+                                            string type = e.Type;
+                                            if (Dictionaries.FieldsDictionary.ContainsKey(field.ToUpper())) field = Dictionaries.FieldsDictionary[field.ToUpper()];
+                                            if (Dictionaries.ModesDictionary.ContainsKey(mode2.ToUpper())) mode2 = Dictionaries.ModesDictionary[mode2.ToUpper()];
+                                            if (Dictionaries.TypesOfEventDictionary.ContainsKey(type.ToUpper())) type = Dictionaries.TypesOfEventDictionary[type.ToUpper()];
 
 
 

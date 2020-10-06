@@ -19,6 +19,7 @@ namespace Parsers.TimetableNew
             {
                 var lines = Regex.Split(content, Environment.NewLine);
                 Dictionary<int, string> groups = new Dictionary<int, string>();
+                Dictionary<string, string> degrees = TimetableOLD.Models.Dictionaries.DegreesDictionary2;
                 TimetableInfo currentInfo = new TimetableInfo();
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -45,7 +46,7 @@ namespace Parsers.TimetableNew
                             Department = infos[1].Trim(),
                             Mode = infos[2].Trim(),
                             Field = infos[3].Trim(),
-                            Degree = infos[4].Trim(),
+                            Degree = degrees.ContainsKey(infos[4].Trim().ToUpper()) ? degrees[infos[4].Trim().ToUpper()] : infos[4].Trim(),
                             Semester = Convert.ToInt32(infos[5].Trim()),
                             Year = Convert.ToInt32(infos[6].Trim()),
                         };
@@ -68,7 +69,14 @@ namespace Parsers.TimetableNew
                             List<int> groupsNrs = new List<int>();
                             DateTime startTime, endTime;
                             name = eventLines[0].Split(';')[0].Trim();
-                            type = eventLines[0].Split(';')[1].Trim();
+                            try
+                            {
+                                type = eventLines[0].Split(';')[1].Trim();
+                            }
+                            catch(Exception ex)
+                            {
+                                type = "?";
+                            }
                             //TODO: add facultygroups
                             foreach (string s in eventLines[1].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
                             {
