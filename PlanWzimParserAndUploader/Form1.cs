@@ -235,7 +235,7 @@ namespace PlanWzimParserAndUploader
         private void BUpload_Click(object sender, EventArgs e)
         {
             // upload
-            PlanWzimServices.PutJson(rtbOutput.Text);
+            //PlanWzimServices.PutJson(rtbOutput.Text);
             MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
 
             // experimental 1.5 old json format
@@ -328,7 +328,20 @@ namespace PlanWzimParserAndUploader
         }
         public static async void PutNewJsonGists(string json)
         {
-            var token = "9369af655dae5096640be136b1705ee3927689f8";
+            var token = "";
+
+            try
+            {
+                StreamReader sr = new StreamReader("token.txt");
+                token = sr.ReadLine();
+                sr.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("nie znaleziono pliku token.txt, nie można zaktualizować planu na gist");
+                throw ex;
+            }
+
             string idTimetable = "1f97642898f77f65550ff551eca089ca"; ; //timetable.json
             string idTimetableDate = "db635e765ddfb8b0405d680ac49c6d50"; ; //timetable_date.json
             var github = new GitHubClient(new Octokit.ProductHeaderValue("Parserv2"));

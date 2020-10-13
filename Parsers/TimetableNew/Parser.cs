@@ -93,7 +93,7 @@ namespace Parsers.TimetableNew
 
                             string[] where = eventLines[3].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                             room = where[0].Trim();
-                            building = where.Length > 1 ? where[1].Trim() : "34";
+                            building = where.Length > 1 ? where[1].Trim() : "";
 
                             foreach (string l in eventLines[4].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
                             {

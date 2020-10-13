@@ -122,6 +122,8 @@ namespace Parsers.TimetableOLD
                 }
 
                 var room = lines[i + 3].Split(',')[0].Trim();
+                var building = lines[i + 3].Split(',').ElementAtOrDefault(1);
+                if(string.IsNullOrEmpty(building)) building = "";
                 string day = "";
 
                 try
@@ -143,7 +145,8 @@ namespace Parsers.TimetableOLD
                         StartTime = string.Concat(lines[i + 2].SkipWhile(c => c != ',').Skip(1).TakeWhile(c => c != '-')).Trim(),
                         EndTime = string.Concat(lines[i + 2].SkipWhile(c => c != '-').Skip(1)).Trim(),
                         Room = room,
-                        Building = lines[i + 3].Split(',').ElementAtOrDefault(1)?.Trim() ?? (department.Equals("WZIM") && !string.IsNullOrWhiteSpace(room) ? "34" : null),
+                        //Building = lines[i + 3].Split(',').ElementAtOrDefault(1)?.Trim() ?? (department.Equals("WZIM") && !string.IsNullOrWhiteSpace(room) ? "34" : null),
+                        Building = building,
                         Lecturers = lines[i + 4].Split(new char[','], StringSplitOptions.RemoveEmptyEntries).Select(l => l.Trim()).ToArray(),
                         Remarks = string.Concat(lines[i + 5].SkipWhile(c => c != ':').Skip(1)).Trim(),
                         Department = department,
