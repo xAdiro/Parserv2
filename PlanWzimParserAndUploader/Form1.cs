@@ -235,7 +235,7 @@ namespace PlanWzimParserAndUploader
         private void BUpload_Click(object sender, EventArgs e)
         {
             // upload
-            //PlanWzimServices.PutJson(rtbOutput.Text);
+            PlanWzimServices.PutJson(rtbOutput.Text);
             MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
 
             // experimental 1.5 old json format
