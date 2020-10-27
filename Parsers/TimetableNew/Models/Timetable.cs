@@ -30,7 +30,7 @@ namespace Parsers.TimetableNew.Models
                     Building = item.Building ?? "",
                     EndTime = DateTime.ParseExact(item.EndTime, new[] { "HH:mm", "H:mm" }, null, DateTimeStyles.AllowWhiteSpaces),
                     StartTime = DateTime.ParseExact(item.StartTime, new[] { "HH:mm", "H:mm" }, null, DateTimeStyles.AllowWhiteSpaces),
-                    Groups = new List<TimetableGroup>() { new TimetableGroup() { Group = Convert.ToInt32(item.Group), Specialization = item.Specialization } },
+                    Groups = new List<TimetableGroup>() { new TimetableGroup() { Group = item.Group, Specialization = item.Specialization } },
                     IsFaculty = item.IsFaculty,
                     Lecturers = item.Lecturers.ToList(),
                     FacultyGroups = new List<string>() { item.FacultyGroup },

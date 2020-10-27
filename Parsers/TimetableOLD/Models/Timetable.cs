@@ -86,7 +86,13 @@ namespace Parsers.TimetableOLD.Models
 
 
 
-
+                                            // hack for groups that are not a number (WARNING: if its not a number there should be not any specialization)
+                                            bool specOk = int.TryParse(group.Group, out int groupNr);
+                                            string s = "";
+                                            if(specOk)
+                                            {
+                                                s = specs[groupNr - 1];
+                                            }
                                             TimetableEvent eventOLD = new TimetableEvent()
                                             {
                                                 AcademicYear = academicYear.AcademicYear,
@@ -99,7 +105,7 @@ namespace Parsers.TimetableOLD.Models
                                                 FacultyGroup = "",
                                                 FieldOfStudy = field,
                                                 Group = group.Group.ToString(),
-                                                Specialization = specs[group.Group - 1],
+                                                Specialization = s,
                                                 Semester = semester.Semester.ToString(),
                                                 IsFaculty = false,
                                                 Lecturers = e.Lecturers.ToArray(),

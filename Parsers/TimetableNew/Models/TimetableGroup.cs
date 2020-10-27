@@ -4,7 +4,7 @@ namespace Parsers.TimetableNew.Models
 {
     public class TimetableGroup
     {
-        public int Group { get; set; }
+        public string Group { get; set; }
         public string Specialization { get; set; }
 
         public override string ToString()

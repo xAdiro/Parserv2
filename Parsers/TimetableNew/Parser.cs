@@ -18,7 +18,7 @@ namespace Parsers.TimetableNew
             foreach (var content in filesContents)
             {
                 var lines = Regex.Split(content, Environment.NewLine);
-                Dictionary<int, string> groups = new Dictionary<int, string>();
+                Dictionary<string, string> groups = new Dictionary<string, string>();
                 Dictionary<string, string> degrees = TimetableOLD.Models.Dictionaries.DegreesDictionary2;
                 TimetableInfo currentInfo = new TimetableInfo();
                 for (int i = 0; i < lines.Length; i++)
@@ -29,9 +29,9 @@ namespace Parsers.TimetableNew
                         foreach (var gr in grs)
                         {
                             string[] g = gr.Split(';');
-                            if (!groups.ContainsKey(Convert.ToInt32(g[0].Trim())))
+                            if (!groups.ContainsKey(g[0].Trim()))
                             {
-                                groups.Add(Convert.ToInt32(g[0].Trim()), g.Length > 1 ? g[1].Trim() : "");
+                                groups.Add(g[0].Trim(), g.Length > 1 ? g[1].Trim() : "");
                             }
                         }
                         i += grs.Length + 1;
@@ -66,7 +66,7 @@ namespace Parsers.TimetableNew
                             string[] eventLines = lines.Skip(i + j + 1).TakeWhile(l => l.ToLower().Trim() != "end_event.").ToArray();
                             string name, type, room, building, remarks;
                             List<string> lecturers = new List<string>(), facultyGroups = new List<string>();
-                            List<int> groupsNrs = new List<int>();
+                            List<string> groupsNrs = new List<string>();
                             DateTime startTime, endTime;
                             name = eventLines[0].Split(';')[0].Trim();
                             try
@@ -80,7 +80,7 @@ namespace Parsers.TimetableNew
                             //TODO: add facultygroups
                             foreach (string s in eventLines[1].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
                             {
-                                groupsNrs.Add(Convert.ToInt32(s.Trim()));
+                                groupsNrs.Add(s.Trim());
                             }
                             List<TimetableGroup> eventGroups = new List<TimetableGroup>();
                             foreach (var item in groupsNrs)
