@@ -235,7 +235,7 @@ namespace PlanWzimParserAndUploader
         private void BUpload_Click(object sender, EventArgs e)
         {
             // upload
-            PlanWzimServices.PutJson(rtbOutput.Text);
+            //PlanWzimServices.PutJson(rtbOutput.Text);
             MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
 
             // experimental 1.5 old json format
@@ -244,19 +244,47 @@ namespace PlanWzimParserAndUploader
             {
                 t.Date = DateTime.Now;
             }
-            PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject(t));
+            //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject(t));
+
             //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableNew.Models.Timetable)timetableResult));
             //PlanWzimServices.PutNewJsonGists(rtbOutput.Text);
             MessageBox.Show("plan na github gists zaktualizowany");
+
+            Parsers.TimetableOLD3.Models.Timetable t3 = (Parsers.TimetableOLD3.Models.Timetable)t;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Json|*.json";
+            saveFileDialog1.Title = "Save an json file";
+            saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.
+            if (saveFileDialog1.FileName != "")
+            {
+                StreamWriter sw = new StreamWriter(
+                    new FileStream(saveFileDialog1.FileName, System.IO.FileMode.OpenOrCreate, FileAccess.ReadWrite),
+                    Encoding.UTF8
+                );
+                sw.Write(JsonConvert.SerializeObject(t3));
+                sw.Close();
+            }
+            MessageBox.Show("zapisano");
+
             // refresh date
             RefreshTimetableDate();
         }
 
         private void RefreshTimetableDate()
         {
+            try
+            {
+
             string date = PlanWzimServices.GetDate();
             label3.Text = label3.Text.Remove(label3.Text.IndexOf(':'));
             label3.Text += ": " + date;
+            }
+            catch
+            {
+                label3.Text = "ERROR";
+            }
         }
 
         private async void BCheckUpdate_Click(object sender, EventArgs e)
