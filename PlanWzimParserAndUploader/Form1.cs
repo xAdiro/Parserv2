@@ -235,8 +235,11 @@ namespace PlanWzimParserAndUploader
         private void BUpload_Click(object sender, EventArgs e)
         {
             // upload
-            //PlanWzimServices.PutJson(rtbOutput.Text);
-            MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
+            if (updateOldServer.Checked)
+            {
+                PlanWzimServices.PutJson(rtbOutput.Text);
+                MessageBox.Show("plan na serwerze zaktualizowany (lub nie jesli coś wywaliło)");
+            }
 
             // experimental 1.5 old json format
             Parsers.TimetableOLD2.Models.Timetable t = (Parsers.TimetableOLD2.Models.Timetable)timetableResult;
@@ -244,29 +247,36 @@ namespace PlanWzimParserAndUploader
             {
                 t.Date = DateTime.Now;
             }
-            //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject(t));
 
-            //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableNew.Models.Timetable)timetableResult));
-            //PlanWzimServices.PutNewJsonGists(rtbOutput.Text);
-            MessageBox.Show("plan na github gists zaktualizowany");
-
-            Parsers.TimetableOLD3.Models.Timetable t3 = (Parsers.TimetableOLD3.Models.Timetable)t;
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Json|*.json";
-            saveFileDialog1.Title = "Save an json file";
-            saveFileDialog1.ShowDialog();
-
-            // If the file name is not an empty string open it for saving.
-            if (saveFileDialog1.FileName != "")
+            if (updateGist.Checked)
             {
-                StreamWriter sw = new StreamWriter(
-                    new FileStream(saveFileDialog1.FileName, System.IO.FileMode.OpenOrCreate, FileAccess.ReadWrite),
-                    Encoding.UTF8
-                );
-                sw.Write(JsonConvert.SerializeObject(t3));
-                sw.Close();
+                PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject(t));
+
+                //PlanWzimServices.PutNewJsonGists(JsonConvert.SerializeObject((Parsers.TimetableNew.Models.Timetable)timetableResult));
+                //PlanWzimServices.PutNewJsonGists(rtbOutput.Text);
+                MessageBox.Show("plan na github gists zaktualizowany");
             }
-            MessageBox.Show("zapisano");
+
+            if (saveToFile.Checked)
+            {
+                Parsers.TimetableOLD3.Models.Timetable t3 = (Parsers.TimetableOLD3.Models.Timetable)t;
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "Json|*.json";
+                saveFileDialog1.Title = "Save an json file";
+                saveFileDialog1.ShowDialog();
+
+                // If the file name is not an empty string open it for saving.
+                if (saveFileDialog1.FileName != "")
+                {
+                    StreamWriter sw = new StreamWriter(
+                        new FileStream(saveFileDialog1.FileName, System.IO.FileMode.OpenOrCreate, FileAccess.ReadWrite),
+                        Encoding.UTF8
+                    );
+                    sw.Write(JsonConvert.SerializeObject(t3));
+                    sw.Close();
+                }
+                MessageBox.Show("zapisano");
+            }
 
             // refresh date
             RefreshTimetableDate();

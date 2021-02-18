@@ -48,6 +48,9 @@
             this.ttCheckUpdate = new System.Windows.Forms.ToolTip(this.components);
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.updateOldServer = new System.Windows.Forms.CheckBox();
+            this.updateGist = new System.Windows.Forms.CheckBox();
+            this.saveToFile = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lbOldFiles
@@ -90,9 +93,9 @@
             // bUpload
             // 
             this.bUpload.Enabled = false;
-            this.bUpload.Location = new System.Drawing.Point(694, 344);
+            this.bUpload.Location = new System.Drawing.Point(694, 403);
             this.bUpload.Name = "bUpload";
-            this.bUpload.Size = new System.Drawing.Size(94, 88);
+            this.bUpload.Size = new System.Drawing.Size(94, 29);
             this.bUpload.TabIndex = 4;
             this.bUpload.Text = "UPLOAD";
             this.bUpload.UseVisualStyleBackColor = true;
@@ -100,9 +103,9 @@
             // 
             // bDownloadJson
             // 
-            this.bDownloadJson.Location = new System.Drawing.Point(581, 344);
+            this.bDownloadJson.Location = new System.Drawing.Point(581, 334);
             this.bDownloadJson.Name = "bDownloadJson";
-            this.bDownloadJson.Size = new System.Drawing.Size(107, 88);
+            this.bDownloadJson.Size = new System.Drawing.Size(107, 98);
             this.bDownloadJson.TabIndex = 5;
             this.bDownloadJson.Text = "Pobierz aktualny json z serwera";
             this.bDownloadJson.UseVisualStyleBackColor = true;
@@ -110,9 +113,9 @@
             // 
             // bLoadJson
             // 
-            this.bLoadJson.Location = new System.Drawing.Point(472, 344);
+            this.bLoadJson.Location = new System.Drawing.Point(472, 334);
             this.bLoadJson.Name = "bLoadJson";
-            this.bLoadJson.Size = new System.Drawing.Size(103, 88);
+            this.bLoadJson.Size = new System.Drawing.Size(103, 98);
             this.bLoadJson.TabIndex = 6;
             this.bLoadJson.Text = "wgraj jsona bezpośrednio";
             this.bLoadJson.UseVisualStyleBackColor = true;
@@ -123,7 +126,7 @@
             this.rtbOutput.Location = new System.Drawing.Point(472, 29);
             this.rtbOutput.Name = "rtbOutput";
             this.rtbOutput.ReadOnly = true;
-            this.rtbOutput.Size = new System.Drawing.Size(316, 309);
+            this.rtbOutput.Size = new System.Drawing.Size(316, 299);
             this.rtbOutput.TabIndex = 7;
             this.rtbOutput.Text = "";
             // 
@@ -232,11 +235,50 @@
             this.webBrowser.TabIndex = 18;
             this.webBrowser.Visible = false;
             // 
+            // updateOldServer
+            // 
+            this.updateOldServer.AutoSize = true;
+            this.updateOldServer.Checked = true;
+            this.updateOldServer.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.updateOldServer.Location = new System.Drawing.Point(694, 334);
+            this.updateOldServer.Name = "updateOldServer";
+            this.updateOldServer.Size = new System.Drawing.Size(90, 17);
+            this.updateOldServer.TabIndex = 19;
+            this.updateOldServer.Text = "Server silvera";
+            this.updateOldServer.UseVisualStyleBackColor = true;
+            // 
+            // updateGist
+            // 
+            this.updateGist.AutoSize = true;
+            this.updateGist.Checked = true;
+            this.updateGist.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.updateGist.Location = new System.Drawing.Point(694, 357);
+            this.updateGist.Name = "updateGist";
+            this.updateGist.Size = new System.Drawing.Size(42, 17);
+            this.updateGist.TabIndex = 20;
+            this.updateGist.Text = "gist";
+            this.updateGist.UseVisualStyleBackColor = true;
+            // 
+            // saveToFile
+            // 
+            this.saveToFile.AutoSize = true;
+            this.saveToFile.Checked = true;
+            this.saveToFile.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.saveToFile.Location = new System.Drawing.Point(694, 380);
+            this.saveToFile.Name = "saveToFile";
+            this.saveToFile.Size = new System.Drawing.Size(95, 17);
+            this.saveToFile.TabIndex = 21;
+            this.saveToFile.Text = "zapisz do pliku";
+            this.saveToFile.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 446);
+            this.Controls.Add(this.saveToFile);
+            this.Controls.Add(this.updateGist);
+            this.Controls.Add(this.updateOldServer);
             this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.bCheckUpdate);
@@ -284,6 +326,9 @@
         private System.Windows.Forms.ToolTip ttCheckUpdate;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.WebBrowser webBrowser;
+        private System.Windows.Forms.CheckBox updateOldServer;
+        private System.Windows.Forms.CheckBox updateGist;
+        private System.Windows.Forms.CheckBox saveToFile;
     }
 }
 
