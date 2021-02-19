@@ -262,7 +262,7 @@ namespace PlanWzimParserAndUploader
                 Parsers.TimetableOLD3.Models.Timetable t3 = (Parsers.TimetableOLD3.Models.Timetable)t;
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "Json|*.json";
-                saveFileDialog1.Title = "Save an json file";
+                saveFileDialog1.Title = "Save a json file";
                 saveFileDialog1.ShowDialog();
 
                 // If the file name is not an empty string open it for saving.
