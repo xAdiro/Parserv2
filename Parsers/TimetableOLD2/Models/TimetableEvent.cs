@@ -106,7 +106,7 @@ namespace Parsers.TimetableOLD2.Models
             if (EndTime != other.EndTime) return false;
             if (Building != other.Building) return false;
             if (Room != other.Room) return false;
-            //if (!Lecturers.SetEquals(other.Lecturers)) return false;
+            if (!Lecturers.SetEquals(other.Lecturers)) return false;
             if (Type != other.Type) return false;
             if (Remarks != other.Remarks) return false;
             if (AcademicYear != other.AcademicYear) return false;
