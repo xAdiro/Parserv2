@@ -28,7 +28,9 @@ namespace Parsers.TimetableNew.Models
             if (!EndTime.Equals(e.EndTime)) return false;
             if (!Building.Equals(e.Building)) return false;
             if (!Room.Equals(e.Room)) return false;
-            //if (!Lecturers.Equals(e.Lecturers)) return false; //TODO: this always return false
+            HashSet<string> tmp = new HashSet<string>(Lecturers);
+            HashSet<string> tmp2 = new HashSet<string>(e.Lecturers);
+            if (!tmp.SetEquals(tmp2)) return false;
             if (!Remarks.Equals(e.Remarks)) return false;
             return true;
         }
