@@ -85,7 +85,7 @@ namespace Parsers.TimetableOLD3.Models
             e.mode = timetableOldEvent.Mode;
             e.start_time = timetableOldEvent.StartTime;
             e.end_time = timetableOldEvent.EndTime;
-            if(timetableOldEvent.Building.Trim() == "" && timetableOldEvent.Room.Trim().ToLower() == "zdalne")
+            if(timetableOldEvent.Building.Trim() == "" && (timetableOldEvent.Room.Trim().ToLower() == "zdalne" || timetableOldEvent.Room.Trim().ToLower() == "classes are conducted remotely"))
             {
                 e.is_online = true;
                 e.building = null;
