@@ -85,7 +85,7 @@ namespace Parsers.TimetableOLD3.Models
             e.mode = timetableOldEvent.Mode;
             e.start_time = timetableOldEvent.StartTime;
             e.end_time = timetableOldEvent.EndTime;
-            if(timetableOldEvent.Building.Trim() == "")
+            if(timetableOldEvent.Building.Trim() == "" && timetableOldEvent.Room.Trim().ToLower() == "zdalne")
             {
                 e.is_online = true;
                 e.building = null;
@@ -93,8 +93,10 @@ namespace Parsers.TimetableOLD3.Models
             }
             else
             {
-                e.building = timetableOldEvent.Building;
-                e.room = timetableOldEvent.Room;
+                e.building = timetableOldEvent.Building.Trim();
+                e.room = timetableOldEvent.Room.Trim();
+                if (e.room != "" && e.building == "")
+                    e.building = "34";
             }
             e.lecturers = timetableOldEvent.Lecturers.ToList();
             e.remarks = timetableOldEvent.Remarks;
