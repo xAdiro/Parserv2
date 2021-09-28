@@ -92,7 +92,7 @@ namespace Parsers.TimetableNew
                             endTime = DateTime.ParseExact(eventLines[2].Split('-')[1], new[] { "HH:mm", "H:mm" }, null, DateTimeStyles.AllowWhiteSpaces);
 
                             string[] where = eventLines[3].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                            room = where[0].Trim();
+                            room = where.Length > 0 ? where[0].Trim() : "";
                             building = where.Length > 1 ? where[1].Trim() : "";
 
                             foreach (string l in eventLines[4].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
