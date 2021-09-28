@@ -24,7 +24,7 @@ namespace Parsers.TimetableOLD2.Models
             {
                 TimetableEvent ev = (TimetableEvent)e;
                 t.Events = t.Events.Append(ev);
-                Console.WriteLine("hello");
+                //Console.WriteLine("hello");
             }
             List<TimetableEvent> finalEvents = t.Events.ToList();
             for (int i = 0; i < finalEvents.Count; i++)
