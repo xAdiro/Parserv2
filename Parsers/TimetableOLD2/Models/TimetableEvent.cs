@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Parsers.TimetableOLD2.Models
 {
@@ -62,7 +61,7 @@ namespace Parsers.TimetableOLD2.Models
             int dayIndex = days.IndexOf(timetableOldEvent.DayOfWeek);
             if(dayIndex > days.Count || dayIndex < 0)
             {
-                MessageBox.Show("dzień nieznaleziony!");
+                Console.WriteLine("dzień nieznaleziony!");
             }
             return new TimetableEvent()
             {

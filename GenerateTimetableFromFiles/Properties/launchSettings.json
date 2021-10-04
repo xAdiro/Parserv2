@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GenerateTimetableFromFiles": {
+      "commandName": "Project",
+      "commandLineArgs": "./files ./xlsxOutput -fd"
+    }
+  }
+}
