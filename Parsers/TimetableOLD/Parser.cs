@@ -136,7 +136,7 @@ namespace Parsers.TimetableOLD
                     Console.WriteLine(errMsg);
                     throw new Exception(errMsg);
                 }
-
+                var lecturers = lines[i + 4].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(l => l.Trim()).ToArray();
                 var timetableEvent =
                     new TimetableEvent
                     {
@@ -147,7 +147,7 @@ namespace Parsers.TimetableOLD
                         Room = room,
                         //Building = lines[i + 3].Split(',').ElementAtOrDefault(1)?.Trim() ?? (department.Equals("WZIM") && !string.IsNullOrWhiteSpace(room) ? "34" : null),
                         Building = building,
-                        Lecturers = lines[i + 4].Split(new char[','], StringSplitOptions.RemoveEmptyEntries).Select(l => l.Trim()).ToArray(),
+                        Lecturers = lecturers,
                         Remarks = string.Concat(lines[i + 5].SkipWhile(c => c != ':').Skip(1)).Trim(),
                         Department = department,
                         Mode = mode,
